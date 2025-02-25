@@ -1,0 +1,35 @@
+---
+title: "The Tail Risk Premium - Extension of Lottery Preference Premium"
+format: html
+
+---
+## Abstract
+The investment strategy centered around the Idiosyncratic Volatility (IVOL) Risk Premium exploits the distinct performance patterns of stocks exhibiting varying levels of firm-specific risk. Unlike systemic risk, which permeates the entire market, idiosyncratic volatility is unique to individual firms and can be effectively diversified within a well-constructed portfolio. Empirical research consistently demonstrates that stocks with low idiosyncratic volatility tend to outperform those with high idiosyncratic volatility, suggesting a negative risk premium for high-IVOL stocks and a positive premium for low-IVOL stocks. This phenomenon has been validated across diverse international markets and controlled for market, size, and book-to-market factors, forming the foundation of this investment strategy.
+
+## Investment Strategy
+The core of the strategy involves taking long positions in stocks characterized by low idiosyncratic volatility, which consistently exhibit a positive return premium. These stocks are frequently underpriced relative to their risk profiles, presenting an opportunity for reliable excess returns. Conversely, stocks with high idiosyncratic volatility are systematically mispriced due to behavioral biases such as investor preference for lottery-like payoffs and market frictions that limit arbitrage. By strategically shorting these high-IVOL stocks, investors can exploit their documented pattern of underperformance. This dual approach leverages market inefficiencies to achieve superior risk-adjusted returns.
+
+## Persistence of the Idiosyncratic Risk Premium:
+The persistence of the idiosyncratic risk premium is attributed to several factors, including investor behavior, market frictions, and liquidity constraints. High-IVOL stocks attract risk-tolerant investors seeking high returns, but deter conservative investors, creating a premium for stocks with lottery-like features. Market frictions, such as high transaction costs and information asymmetry, further perpetuate this premium by impeding effective arbitrage. Additionally, liquidity constraints necessitate higher compensation for holding assets with high idiosyncratic risk. By comprehensively understanding and exploiting these dynamics, the investment strategy aims to deliver consistent and predictable returns.
+
+## Strategy Details
+To effectively harness the Idiosyncratic Volatility (IVOL) Risk Premium, the strategy employs a systematic approach in selecting and managing investments:
+
+### Data Selection:
++ The initial step involves gathering comprehensive data from the WRDS database by Wharton, spanning from 2002 to 2022. This extensive data set includes stock prices, historical returns, and idiosyncratic volatility measures.
++ The portfolio will be rebalanced annually from 2007 to 2022, ensuring a lookback window of five additional years to refine the selection criteria.
+
+### Portfolio Construction
++ Selection Criteria: The strategy identifies stocks based on idiosyncratic volatility and skewness. Stocks exhibiting high idiosyncratic volatility and negative skewness are shortlisted for short positions, while those with low idiosyncratic volatility and positive skewness are chosen for long positions.
+
++ Long Positions: The strategy takes long positions in stocks with low idiosyncratic volatility, aiming to capitalize on their consistent positive return premium. These stocks are often underpriced relative to their risk profiles, offering reliable opportunities for excess returns.
+
++ Short Positions: Simultaneously, short positions are established in stocks with high idiosyncratic volatility. These stocks are systematically mispriced due to behavioral biases and market frictions, and they tend to underperform over time. The strategy seeks to profit from their predictable pattern of underperformance.
+
+### Risk Management:
++ Diversification: The portfolio is diversified across multiple stocks to mitigate firm-specific risks. By constructing a well-balanced portfolio, the strategy ensures that the impact of any single stock's volatility is minimized.
++ Rebalancing: Annual rebalancing is conducted to maintain the desired risk exposure and adjust for changes in idiosyncratic volatility and skewness. This regular review allows the strategy to adapt to evolving market conditions and optimize returns.
+
+### Performance Monitoring:
++ The strategy's performance is continuously monitored against relevant benchmarks to ensure alignment with its objectives. Key performance indicators, such as risk-adjusted returns and volatility measures, are tracked to assess the strategy's effectiveness.
++ Adjustments: Based on performance analysis, adjustments may be made to the portfolio composition, selection criteria, or rebalancing frequency to enhance the strategy's overall performance and resilience to market fluctuations.
