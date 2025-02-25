@@ -1,6 +1,9 @@
 ---
 title: "The Tail Risk Premium - Extension of Lottery Preference Premium"
 format: html
+author: "Brayden Boyko, Roan Henderson, Andrew Pettifor"
+jupyter: 
+    kernel: python3
 
 ---
 ## Abstract
@@ -33,3 +36,13 @@ To effectively harness the Idiosyncratic Volatility (IVOL) Risk Premium, the str
 ### Performance Monitoring:
 + The strategy's performance is continuously monitored against relevant benchmarks to ensure alignment with its objectives. Key performance indicators, such as risk-adjusted returns and volatility measures, are tracked to assess the strategy's effectiveness.
 + Adjustments: Based on performance analysis, adjustments may be made to the portfolio composition, selection criteria, or rebalancing frequency to enhance the strategy's overall performance and resilience to market fluctuations.
+
+```{Python}
+#| echo: false
+#| warning: false
+
+
+
+
+
+```
