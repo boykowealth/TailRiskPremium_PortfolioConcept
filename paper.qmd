@@ -46,3 +46,9 @@ To effectively harness the Idiosyncratic Volatility (IVOL) Risk Premium, the str
 
 
 ```
+
+## Performance Evaluations
+A variety of benchmark statistics will be included in our portfolio testing:
++ Annual / Monthly Return Values/Charts For 4 Portfolios
++ Describe Stock Breakdown For Four Portfolios (Skew, IVOL)
++ V1 & V2 Screening

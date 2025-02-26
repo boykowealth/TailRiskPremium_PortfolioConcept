@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
-from scipy.stats import skew, kurtosis
 
 from screens import v1, v2, rebalance
 
 def data():
     dataFile = r"C:\Users\Brayden Boyko\Downloads\bizbhzwdqwkigpgu.csv"
-    df = pd.read_csv(dataFile)
+    dataFile2 = r"C:\Users\brayd\Downloads\bizbhzwdqwkigpgu.csv"
+    df = pd.read_csv(dataFile2)
 
     df['DATE'] = pd.to_datetime(df['DATE'], dayfirst=True, errors='coerce')
     df = df.sort_values(by='DATE', ascending=True)
@@ -43,6 +43,8 @@ def portfolio():
     
     rebalance_period = metaData(select='years')
 
+    ### + Add Random Sample
+
     ## V1->V2 Screen (Extreme IVOL High-Low) -> (Extreme SKEW Positive-Negative)
     for period in rebalance_period:
         df_back = df[(df['YEAR'] <= (period - 1)) & (df['YEAR'] >= (period - 6))].copy()  ## Five Year Lookback Window
@@ -50,8 +52,11 @@ def portfolio():
         
         stats_df = df_back.groupby('TICKER')['IVOL'].agg(
             AVE='mean',
-            SKEW='skew'
             ).reset_index()
+        
+        stats2_df = df_back.groupby('TICKER')['RET'].agg(
+            SKEW='skew'
+        ).reset_index()
         
         return_df = df[df['YEAR'] == period]
         return_df = df_back.groupby('TICKER')['RET'].agg(
@@ -59,6 +64,7 @@ def portfolio():
             ).reset_index()
         
         df_back = df_back.merge(stats_df, on='TICKER', how='left')
+        df_back = df_back.merge(stats2_df, on='TICKER', how='left')
         df_back = df_back.merge(return_df, on='TICKER', how='left')
         df_back = df_back.drop_duplicates(subset='TICKER')
         df_back = df_back.dropna()
@@ -83,8 +89,7 @@ def portfolio():
     v1_df = v1_df[v1_df['Year'] >= 2007] ## Rebalances Begin In 2007
     
     print(v1_df)
-
-
+    v1_df.to_csv(r"c:\Users\brayd\Downloads\test.csv")
 
 
 
