@@ -6,7 +6,7 @@ from screens import v1, v2, rebalance
 def data():
     dataFile = r"C:\Users\Brayden Boyko\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile2 = r"C:\Users\brayd\Downloads\bizbhzwdqwkigpgu.csv"
-    df = pd.read_csv(dataFile2)
+    df = pd.read_csv(dataFile)
 
     df['DATE'] = pd.to_datetime(df['DATE'], dayfirst=True, errors='coerce')
     df = df.sort_values(by='DATE', ascending=True)
@@ -87,9 +87,29 @@ def portfolio():
     v1_df = v1_df.pivot(index=['Year', 'TICKER'], columns='Position', values=['T_RETURN', 'SKEW']).reset_index()
     v1_df.columns = ['Year', 'TICKER', 'LongRetV1', 'ShortRetV1', 'LongSkewV1', 'ShortSkewV1']
     v1_df = v1_df[v1_df['Year'] >= 2007] ## Rebalances Begin In 2007
+
+    rebalance_years = list(v1_df['Year'].unique())
+
+    v2_list = []
+    for year in rebalance_years:
+        v2_df = v1_df[v1_df['Year'] == year]
+        
+        v2_long = v2_df[['Year', 'TICKER','LongRetV1', 'LongSkewV1']].dropna()
+        v2_long.columns = ['Year', 'TICKER', 'LongRetV2', 'LongSkewV2']
+        v2_long = v2_long.sort_values(by='LongSkewV2', ascending=True)
+        v2_long = v2_long.tail(30)
+
+        v2_short = v2_df[['Year', 'TICKER','ShortRetV1', 'ShortSkewV1']].dropna()
+        v2_short.columns = ['Year', 'TICKER', 'ShortRetV2', 'ShortSkewV2']
+        v2_short = v2_short.sort_values(by='ShortSkewV2', ascending=True)
+        v2_short = v2_short.head(30)
+
+        combined = pd.concat([v2_long, v2_short], axis=0)
+        v2_list.append(combined)
+
+    v2_df = pd.concat(v2_list, ignore_index=True)
     
-    print(v1_df)
-    v1_df.to_csv(r"c:\Users\brayd\Downloads\test.csv")
+    print(v2_df)
 
 
 
