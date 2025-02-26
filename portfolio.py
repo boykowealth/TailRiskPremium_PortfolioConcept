@@ -6,7 +6,7 @@ from screens import v1, v2, rebalance
 def data():
     dataFile = r"C:\Users\Brayden Boyko\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile2 = r"C:\Users\brayd\Downloads\bizbhzwdqwkigpgu.csv"
-    df = pd.read_csv(dataFile)
+    df = pd.read_csv(dataFile2)
 
     df['DATE'] = pd.to_datetime(df['DATE'], dayfirst=True, errors='coerce')
     df = df.sort_values(by='DATE', ascending=True)
@@ -113,22 +113,32 @@ def portfolio():
 
     L_Base = v1_df[['Year', 'TICKER', 'LongRetV1', 'LongSkewV1']].dropna()
     L_Base = L_Base.groupby('Year')['LongRetV1'].agg(LongV1Ret='mean').reset_index()
+    tickers = v1_df.groupby('Year')['TICKER'].unique().reset_index(name='LongPosV1')
+    L_Base = L_Base.merge(tickers, on='Year', how='left')
 
     S_Base = v1_df[['Year', 'TICKER', 'ShortRetV1', 'ShortSkewV1']].dropna()
     S_Base = S_Base.groupby('Year')['ShortRetV1'].agg(ShortV1Ret='mean').reset_index()
     S_Base['ShortV1Ret'] = (S_Base['ShortV1Ret'] * -1).clip(lower=-1) ## Make Returns Inverse
+    tickers = v1_df.groupby('Year')['TICKER'].unique().reset_index(name='ShortPosV1')
+    S_Base = S_Base.merge(tickers, on='Year', how='left')
 
     L_Port = v2_df[['Year', 'TICKER', 'LongRetV2', 'LongSkewV2']].dropna()
     L_Port = L_Port.groupby('Year')['LongRetV2'].agg(LongV2Ret='mean').reset_index()
+    tickers = v2_df.groupby('Year')['TICKER'].unique().reset_index(name='LongPosV2')
+    L_Port = L_Port.merge(tickers, on='Year', how='left')
 
     S_Port = v2_df[['Year', 'TICKER', 'ShortRetV2', 'ShortSkewV2']].dropna()
     S_Port = S_Port.groupby('Year')['ShortRetV2'].agg(ShortV2Ret='mean').reset_index()
     S_Port['ShortV2Ret'] = (S_Port['ShortV2Ret'] * -1).clip(lower=-1) ## Make Returns Inverse
+    tickers = v2_df.groupby('Year')['TICKER'].unique().reset_index(name='ShortPosV2')
+    S_Port = S_Port.merge(tickers, on='Year', how='left')
 
     port = L_Base.merge(L_Port, how='left', on='Year')
     port = port.merge(S_Base, how='left', on='Year')
     port = port.merge(S_Port, how='left', on='Year')
-    
+
+
+
 
     print(port)
     return port
