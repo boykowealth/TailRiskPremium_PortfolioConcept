@@ -111,7 +111,28 @@ def portfolio():
     
     print(v2_df)
 
+    ## Long-Short Base Startegy (L_Base/S_Base) ---> Long-Short Portfolio Startegy (L_Port/S_Port)
 
+    L_Base = v1_df[['Year', 'TICKER', 'LongRetV1', 'LongSkewV1']].dropna()
+    L_Base = L_Base.groupby('Year')['LongRetV1'].agg(LongV1Ret='mean').reset_index()
+
+    S_Base = v1_df[['Year', 'TICKER', 'ShortRetV1', 'ShortSkewV1']].dropna()
+    S_Base = S_Base.groupby('Year')['ShortRetV1'].agg(ShortV1Ret='mean').reset_index()
+    S_Base['ShortV1Ret'] = S_Base['ShortV1Ret'] * -1 ## Make Returns Inverse
+
+    L_Port = v2_df[['Year', 'TICKER', 'LongRetV2', 'LongSkewV2']].dropna()
+    L_Port = L_Port.groupby('Year')['LongRetV2'].agg(LongV2Ret='mean').reset_index()
+
+    S_Port = v2_df[['Year', 'TICKER', 'ShortRetV2', 'ShortSkewV2']].dropna()
+    S_Port = S_Port.groupby('Year')['ShortRetV2'].agg(ShortV2Ret='mean').reset_index()
+    S_Port['ShortV2Ret'] = S_Port['ShortV2Ret'] * -1 ## Make Returns Inverse
+
+    port = L_Base.merge(L_Port, how='left', on='Year')
+    port = port.merge(S_Base, how='left', on='Year')
+    port = port.merge(S_Port, how='left', on='Year')
+    
+
+    print(port)
 
 
 portfolio()
