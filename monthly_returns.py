@@ -28,13 +28,12 @@ def portfolio_returns():
 
     L_v1 = monthly_returns(Pos="Long", Port="V1")
     S_v1 = monthly_returns(Pos="Short", Port="V1")
-    L_v2 = monthly_returns(Pos="Long", Port="V1")
+    L_v2 = monthly_returns(Pos="Long", Port="V2")
     S_v2 = monthly_returns(Pos="Short", Port="V2")
 
     portfolio = pd.concat([L_v1, S_v1, L_v2, S_v2])
     portfolio = portfolio.groupby(['DATE', 'PORTFOLIO']).agg({'RET': 'mean', 'IVOL': 'mean'}).reset_index()
 
-    print(portfolio)
     return portfolio
 
 portfolio_returns()
