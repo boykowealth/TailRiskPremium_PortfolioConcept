@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
 
-from screens import v1, v2, rebalance
-
 def data():
     dataFile = r"C:\Users\Brayden Boyko\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile2 = r"C:\Users\brayd\Downloads\bizbhzwdqwkigpgu.csv"
@@ -137,13 +135,5 @@ def portfolio():
     port = port.merge(S_Base, how='left', on='Year')
     port = port.merge(S_Port, how='left', on='Year')
 
-
-
-
     print(port)
     return port
-
-
-portfolio()
-
-
