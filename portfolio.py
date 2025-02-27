@@ -4,7 +4,7 @@ import numpy as np
 def data():
     dataFile = r"C:\Users\Brayden Boyko\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile2 = r"C:\Users\brayd\Downloads\bizbhzwdqwkigpgu.csv"
-    df = pd.read_csv(dataFile2)
+    df = pd.read_csv(dataFile)
 
     df['DATE'] = pd.to_datetime(df['DATE'], dayfirst=True, errors='coerce')
     df = df.sort_values(by='DATE', ascending=True)
@@ -135,5 +135,4 @@ def portfolio():
     port = port.merge(S_Base, how='left', on='Year')
     port = port.merge(S_Port, how='left', on='Year')
 
-    print(port)
     return port

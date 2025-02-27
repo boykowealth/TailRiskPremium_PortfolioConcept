@@ -1,4 +1,5 @@
 from portfolio import portfolio, data
+import pandas as pd
 
 def monthly_returns(Pos=None, Port=None):
     """
@@ -11,14 +12,29 @@ def monthly_returns(Pos=None, Port=None):
     df = data()
     port = portfolio()
     select = f"{Pos}Pos{Port}"
-
-    print(select)
     
-    port = port[[]]
+    port = port[['Year', f'{select}']]
 
+    df = df.merge(port, how='left', left_on='YEAR', right_on='Year').dropna()
+    df = df.explode(f'{select}')
+    df = df[df['TICKER'] == df[f'{select}']]
+    df['PORTFOLIO'] = select
 
+    df = df[['DATE', 'YEAR', 'TICKER', 'RET', 'IVOL', 'PORTFOLIO']]
+
+    return df
+
+def portfolio_returns():
+
+    L_v1 = monthly_returns(Pos="Long", Port="V1")
+    S_v1 = monthly_returns(Pos="Short", Port="V1")
+    L_v2 = monthly_returns(Pos="Long", Port="V1")
+    S_v2 = monthly_returns(Pos="Short", Port="V2")
+
+    portfolio = pd.concat([L_v1, S_v1, L_v2, S_v2])
+    portfolio = portfolio.groupby(['DATE', 'PORTFOLIO']).agg({'RET': 'mean', 'IVOL': 'mean'}).reset_index()
 
     print(portfolio)
+    return portfolio
 
-
-monthly_returns(Pos="Long", Port="V1")
+portfolio_returns()
