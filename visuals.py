@@ -3,6 +3,7 @@ from monthly_returns import portfolio_returns
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import norm
 
 def monthly_ret():
     portfolio = portfolio_returns()
@@ -72,5 +73,31 @@ def monthly_alpha():
     plt.grid(True)
     plt.show()
 
+def monthly_hist():
+    portfolio = portfolio_returns()
+    unique_ports = portfolio['PORTFOLIO'].unique()
+    num_ports = len(unique_ports)
+    num_rows = num_cols = 2
 
-monthly_total_return()
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(12, 12))
+    axs = axs.flatten()
+
+    for ax, port in zip(axs, unique_ports):
+        data = portfolio[portfolio['PORTFOLIO'] == port]
+        ax.hist(data['RET'], bins=20, alpha=0.5, label=port, density=True)
+
+        mean, std_dev = norm.fit(data['RET'])
+        
+        x = np.linspace(min(data['RET']), max(data['RET']), 100)
+        p = norm.pdf(x, mean, std_dev)
+        ax.plot(x, p, 'k', linewidth=2, label='Normal dist.')
+
+        ax.set_xlabel("Return")
+        ax.set_ylabel("Frequency")
+        ax.set_title("")
+        ax.grid(True)
+        ax.legend()
+        
+    plt.show()
+
+monthly_hist()
