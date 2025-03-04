@@ -69,6 +69,11 @@ monthly_hist()
 ```
 
 #### Annual Returns
+```{python}
+from visuals import annual_ret
+annual_ret()
+
+```
 
 #### V1 Screen: High-Low IVOL
 

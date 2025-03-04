@@ -1,4 +1,5 @@
 from monthly_returns import portfolio_returns
+from portfolio import pchart
 
 import pandas as pd
 import numpy as np
@@ -24,16 +25,16 @@ def monthly_ivol():
     portfolio = portfolio_returns()
     portfolio = portfolio[portfolio['PORTFOLIO'].isin(['LongPosV1', 'ShortPosV1'])]
     
-    plt.figure(figsize=(8, 5))
-    for port in portfolio['PORTFOLIO'].unique():
+    fig, axs = plt.subplots(2, 1, figsize=(8, 8))
+    
+    for i, port in enumerate(portfolio['PORTFOLIO'].unique()):
         data = portfolio[portfolio['PORTFOLIO'] == port]
-        plt.plot(data['DATE'], data['IVOL'], label=port)
-
-    plt.xlabel("Date")
-    plt.ylabel("IVOL")
-    plt.title("Monthly Portfolio Idiosyncratic Volatility Over Time")
-    plt.legend()
-    plt.grid(True)
+        axs[i].plot(data['DATE'], data['IVOL'], label=port)
+        axs[i].set_xlabel("Date")
+        axs[i].set_ylabel("IVOL")
+        axs[i].legend()
+        axs[i].grid(True)
+    
     plt.show()
 
 def monthly_total_return():
@@ -96,5 +97,26 @@ def monthly_hist():
         ax.set_title("")
         ax.grid(True)
         ax.legend()
+
+    plt.show()
+
+
+def annual_ret():
+    data = pchart()
+    data = data[['Year', 'LongV1Ret', 'LongV2Ret', 'ShortV1Ret', 'ShortV2Ret']]
+    data = data.melt(id_vars=['Year'], var_name='PORTFOLIO', value_name='RET')
+
+    fig, axs = plt.subplots(2, 2, figsize=(8, 8), sharex=True)
+
+    portfolios = ['LongV1Ret', 'LongV2Ret', 'ShortV1Ret', 'ShortV2Ret']
+    titles = ['Long V1 Returns', 'Long V2 Returns', 'Short V1 Returns', 'Short V2 Returns']
+
+    for ax, portfolio, title in zip(axs.flatten(), portfolios, titles):
+        subset = data[data['PORTFOLIO'] == portfolio]
+        ax.bar(subset['Year'], subset['RET'], color='teal')
+        ax.set_title(title)
+        ax.set_ylabel('Return')
+        ax.set_xlabel('Year')
+        ax.tick_params(axis='x', rotation=45)
 
     plt.show()
