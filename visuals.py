@@ -1,10 +1,12 @@
 from monthly_returns import portfolio_returns
 from portfolio import pchart
+from sumStats import tickers
 
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm
+from wordcloud import WordCloud
 
 def monthly_ret():
     portfolio = portfolio_returns()
@@ -119,4 +121,27 @@ def annual_ret():
         ax.set_xlabel('Year')
         ax.tick_params(axis='x', rotation=45)
 
+    plt.show()
+
+def ticker_count():
+    data = tickers()
+    data['Position'] = data.groupby(['Year', 'Portfolio']).cumcount() + 1
+    data['Portfolio_Value'] = data['Portfolio'].map({'Long': 1, 'Short': -1})
+    data['plot'] = data['Position'] * data['Portfolio_Value']
+    
+    plt.figure(figsize=(8, 8))
+
+    for _, row in data.iterrows():
+        plt.scatter(row['Year'], row['plot'], s=100, 
+                    color='white' if row['Portfolio'] == 'Long' else 'white')
+
+        plt.text(row['Year'], row['plot'], row['Ticker'], 
+                 ha='center', va='center', fontsize=5, rotation=0)
+
+    plt.axhline(0, color='black', linewidth=1) 
+    plt.xticks(sorted(data['Year'].unique()))
+    plt.yticks([])
+    plt.xlabel("Year")
+    plt.ylabel("Short (Bottom) vs Long (Top)")
+    plt.title("Ticker Portfolio Positions by Year")
     plt.show()

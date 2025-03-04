@@ -93,3 +93,11 @@ from visuals import monthly_alpha
 monthly_alpha()
 
 ```
+
+#### V2 Portfolio Positions Over Time
+
+```{python}
+from visuals import ticker_count
+
+ticker_count()
+```
