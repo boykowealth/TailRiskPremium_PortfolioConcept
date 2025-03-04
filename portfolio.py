@@ -94,12 +94,12 @@ def portfolio():
         v2_long = v2_df[['Year', 'TICKER','LongRetV1', 'LongSkewV1']].dropna()
         v2_long.columns = ['Year', 'TICKER', 'LongRetV2', 'LongSkewV2']
         v2_long = v2_long.sort_values(by='LongSkewV2', ascending=True)
-        v2_long = v2_long.tail(30)
+        v2_long = v2_long.tail(30) ## OG STRATEGY: v2_long.tail(30)
 
         v2_short = v2_df[['Year', 'TICKER','ShortRetV1', 'ShortSkewV1']].dropna()
         v2_short.columns = ['Year', 'TICKER', 'ShortRetV2', 'ShortSkewV2']
         v2_short = v2_short.sort_values(by='ShortSkewV2', ascending=True)
-        v2_short = v2_short.head(30)
+        v2_short = v2_short.head(30) ## OG STRATEGY: v2_long.head(30)
 
         combined = pd.concat([v2_long, v2_short], axis=0)
         v2_list.append(combined)
