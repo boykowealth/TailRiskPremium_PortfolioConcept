@@ -8,7 +8,7 @@ from scipy.stats import norm
 def monthly_ret():
     portfolio = portfolio_returns()
 
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(8, 5))
     for port in portfolio['PORTFOLIO'].unique():
         data = portfolio[portfolio['PORTFOLIO'] == port]
         plt.plot(data['DATE'], data['RET'], label=port)
@@ -22,8 +22,9 @@ def monthly_ret():
 
 def monthly_ivol():
     portfolio = portfolio_returns()
-
-    plt.figure(figsize=(12, 6))
+    portfolio = portfolio[portfolio['PORTFOLIO'].isin(['LongPosV1', 'ShortPosV1'])]
+    
+    plt.figure(figsize=(8, 5))
     for port in portfolio['PORTFOLIO'].unique():
         data = portfolio[portfolio['PORTFOLIO'] == port]
         plt.plot(data['DATE'], data['IVOL'], label=port)
@@ -39,7 +40,7 @@ def monthly_total_return():
     portfolio = portfolio_returns()
     portfolio['CUM_RET'] = portfolio.groupby(['PORTFOLIO'])['RET'].transform(lambda x: np.cumprod(1 + x))
 
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(8, 5))
     for port in portfolio['PORTFOLIO'].unique():
         data = portfolio[portfolio['PORTFOLIO'] == port]
         plt.plot(data['DATE'], data['CUM_RET'], label=port)
@@ -53,16 +54,14 @@ def monthly_total_return():
 
 def monthly_alpha():
     portfolio = portfolio_returns()
-    portfolio = portfolio[['DATE', 'PORTFOLIO', 'RET']]
-    portfolio = portfolio.pivot(index='DATE', columns='PORTFOLIO', values='RET')
+    portfolio['CUM_RET'] = portfolio.groupby(['PORTFOLIO'])['RET'].transform(lambda x: np.cumprod(1 + x))
+    portfolio = portfolio[['DATE', 'PORTFOLIO', 'CUM_RET']]
+    portfolio = portfolio.pivot(index='DATE', columns='PORTFOLIO', values='CUM_RET')
 
     portfolio['ALPHA_L'] = portfolio['LongPosV2'] - portfolio['LongPosV1']
     portfolio['ALPHA_S'] = portfolio['ShortPosV2'] - portfolio['ShortPosV1']
-
-    portfolio['ALPHA_L'] = (1 + portfolio['ALPHA_L']).cumprod()
-    portfolio['ALPHA_S'] = (1 + portfolio['ALPHA_S']).cumprod()
     
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(8, 5))
     plt.plot(portfolio.index, portfolio['ALPHA_L'], label='Alpha Long')
     plt.plot(portfolio.index, portfolio['ALPHA_S'], label='Alpha Short')
 
@@ -79,7 +78,7 @@ def monthly_hist():
     num_ports = len(unique_ports)
     num_rows = num_cols = 2
 
-    fig, axs = plt.subplots(num_rows, num_cols, figsize=(12, 12))
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(8, 8))
     axs = axs.flatten()
 
     for ax, port in zip(axs, unique_ports):
@@ -97,7 +96,5 @@ def monthly_hist():
         ax.set_title("")
         ax.grid(True)
         ax.legend()
-        
-    plt.show()
 
-monthly_hist()
+    plt.show()

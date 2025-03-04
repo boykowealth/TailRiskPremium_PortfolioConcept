@@ -1,10 +1,18 @@
 ---
 title: "The Tail Risk Premium - Extension of Lottery Preference Premium"
-format: html
 author: "Brayden Boyko, Roan Henderson, Andrew Pettifor"
-jupyter: 
-    kernel: python3
-
+format:
+  html:
+    code_folding: hide
+    self_contained: true
+    toc: false
+    dev: "png"
+    fig_embed: true
+    embed-resources: true
+execute:
+  echo: false
+jupyter:
+  kernel: python3
 ---
 ## Abstract
 The investment strategy centered around the Idiosyncratic Volatility (IVOL) Risk Premium exploits the distinct performance patterns of stocks exhibiting varying levels of firm-specific risk. Unlike systemic risk, which permeates the entire market, idiosyncratic volatility is unique to individual firms and can be effectively diversified within a well-constructed portfolio. Empirical research consistently demonstrates that stocks with low idiosyncratic volatility tend to outperform those with high idiosyncratic volatility, suggesting a negative risk premium for high-IVOL stocks and a positive premium for low-IVOL stocks. This phenomenon has been validated across diverse international markets and controlled for market, size, and book-to-market factors, forming the foundation of this investment strategy.
@@ -37,18 +45,46 @@ To effectively harness the Idiosyncratic Volatility (IVOL) Risk Premium, the str
 + The strategy's performance is continuously monitored against relevant benchmarks to ensure alignment with its objectives. Key performance indicators, such as risk-adjusted returns and volatility measures, are tracked to assess the strategy's effectiveness.
 + Adjustments: Based on performance analysis, adjustments may be made to the portfolio composition, selection criteria, or rebalancing frequency to enhance the strategy's overall performance and resilience to market fluctuations.
 
-```{Python}
-#| echo: false
-#| warning: false
+## Performance Evaluations
+A variety of benchmark statistics will be included in our portfolio testing:
 
++ Annual / Monthly Return Values/Charts For 4 Portfolios
++ Description of Stock Breakdown For Four Portfolios (Skew, IVOL)
++ V1 & V2 Screening
 
+### Monthly Returns
 
+```{python}
+from visuals import monthly_total_return
 
+monthly_total_return()
 
 ```
 
-## Performance Evaluations
-A variety of benchmark statistics will be included in our portfolio testing:
-+ Annual / Monthly Return Values/Charts For 4 Portfolios
-+ Describe Stock Breakdown For Four Portfolios (Skew, IVOL)
-+ V1 & V2 Screening
+#### Monthly Return Histogram
+```{python}
+from visuals import monthly_hist
+
+monthly_hist()
+```
+
+#### Annual Returns
+
+#### V1 Screen: High-Low IVOL
+
+```{python}
+from visuals import monthly_ivol
+
+monthly_ivol()
+```
+
+#### V2 Screen: Negative-Positive Skew
+
+#### V2 Alpha
+
+```{python}
+from visuals import monthly_alpha
+
+monthly_alpha()
+
+```

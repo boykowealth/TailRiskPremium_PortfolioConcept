@@ -38,5 +38,3 @@ def portfolio_returns():
     portfolio = portfolio.groupby(['DATE', 'PORTFOLIO']).agg({'RET': 'mean', 'IVOL': 'mean'}).reset_index()
 
     return portfolio
-
-print(portfolio_returns())

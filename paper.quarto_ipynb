@@ -1,0 +1,153 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"The Tail Risk Premium - Extension of Lottery Preference Premium\"\n",
+        "author: \"Brayden Boyko, Roan Henderson, Andrew Pettifor\"\n",
+        "format:\n",
+        "  html:\n",
+        "    code_folding: hide\n",
+        "    self_contained: true\n",
+        "    toc: false\n",
+        "    dev: \"png\"\n",
+        "    fig_embed: true\n",
+        "    embed-resources: true\n",
+        "execute:\n",
+        "  echo: false\n",
+        "jupyter:\n",
+        "  kernel: python3\n",
+        "---\n",
+        "\n",
+        "## Abstract\n",
+        "The investment strategy centered around the Idiosyncratic Volatility (IVOL) Risk Premium exploits the distinct performance patterns of stocks exhibiting varying levels of firm-specific risk. Unlike systemic risk, which permeates the entire market, idiosyncratic volatility is unique to individual firms and can be effectively diversified within a well-constructed portfolio. Empirical research consistently demonstrates that stocks with low idiosyncratic volatility tend to outperform those with high idiosyncratic volatility, suggesting a negative risk premium for high-IVOL stocks and a positive premium for low-IVOL stocks. This phenomenon has been validated across diverse international markets and controlled for market, size, and book-to-market factors, forming the foundation of this investment strategy.\n",
+        "\n",
+        "## Investment Strategy\n",
+        "The core of the strategy involves taking long positions in stocks characterized by low idiosyncratic volatility, which consistently exhibit a positive return premium. These stocks are frequently underpriced relative to their risk profiles, presenting an opportunity for reliable excess returns. Conversely, stocks with high idiosyncratic volatility are systematically mispriced due to behavioral biases such as investor preference for lottery-like payoffs and market frictions that limit arbitrage. By strategically shorting these high-IVOL stocks, investors can exploit their documented pattern of underperformance. This dual approach leverages market inefficiencies to achieve superior risk-adjusted returns.\n",
+        "\n",
+        "## Persistence of the Idiosyncratic Risk Premium:\n",
+        "The persistence of the idiosyncratic risk premium is attributed to several factors, including investor behavior, market frictions, and liquidity constraints. High-IVOL stocks attract risk-tolerant investors seeking high returns, but deter conservative investors, creating a premium for stocks with lottery-like features. Market frictions, such as high transaction costs and information asymmetry, further perpetuate this premium by impeding effective arbitrage. Additionally, liquidity constraints necessitate higher compensation for holding assets with high idiosyncratic risk. By comprehensively understanding and exploiting these dynamics, the investment strategy aims to deliver consistent and predictable returns.\n",
+        "\n",
+        "## Strategy Details\n",
+        "To effectively harness the Idiosyncratic Volatility (IVOL) Risk Premium, the strategy employs a systematic approach in selecting and managing investments:\n",
+        "\n",
+        "### Data Selection:\n",
+        "+ The initial step involves gathering comprehensive data from the WRDS database by Wharton, spanning from 2002 to 2022. This extensive data set includes stock prices, historical returns, and idiosyncratic volatility measures.\n",
+        "+ The portfolio will be rebalanced annually from 2007 to 2022, ensuring a lookback window of five additional years to refine the selection criteria.\n",
+        "\n",
+        "### Portfolio Construction\n",
+        "+ Selection Criteria: The strategy identifies stocks based on idiosyncratic volatility and skewness. Stocks exhibiting high idiosyncratic volatility and negative skewness are shortlisted for short positions, while those with low idiosyncratic volatility and positive skewness are chosen for long positions.\n",
+        "\n",
+        "+ Long Positions: The strategy takes long positions in stocks with low idiosyncratic volatility, aiming to capitalize on their consistent positive return premium. These stocks are often underpriced relative to their risk profiles, offering reliable opportunities for excess returns.\n",
+        "\n",
+        "+ Short Positions: Simultaneously, short positions are established in stocks with high idiosyncratic volatility. These stocks are systematically mispriced due to behavioral biases and market frictions, and they tend to underperform over time. The strategy seeks to profit from their predictable pattern of underperformance.\n",
+        "\n",
+        "### Risk Management:\n",
+        "+ Diversification: The portfolio is diversified across multiple stocks to mitigate firm-specific risks. By constructing a well-balanced portfolio, the strategy ensures that the impact of any single stock's volatility is minimized.\n",
+        "+ Rebalancing: Annual rebalancing is conducted to maintain the desired risk exposure and adjust for changes in idiosyncratic volatility and skewness. This regular review allows the strategy to adapt to evolving market conditions and optimize returns.\n",
+        "\n",
+        "### Performance Monitoring:\n",
+        "+ The strategy's performance is continuously monitored against relevant benchmarks to ensure alignment with its objectives. Key performance indicators, such as risk-adjusted returns and volatility measures, are tracked to assess the strategy's effectiveness.\n",
+        "+ Adjustments: Based on performance analysis, adjustments may be made to the portfolio composition, selection criteria, or rebalancing frequency to enhance the strategy's overall performance and resilience to market fluctuations.\n",
+        "\n",
+        "## Performance Evaluations\n",
+        "A variety of benchmark statistics will be included in our portfolio testing:\n",
+        "\n",
+        "+ Annual / Monthly Return Values/Charts For 4 Portfolios\n",
+        "+ Description of Stock Breakdown For Four Portfolios (Skew, IVOL)\n",
+        "+ V1 & V2 Screening\n",
+        "\n",
+        "### Monthly Returns\n"
+      ],
+      "id": "379025c8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from visuals import monthly_total_return\n",
+        "\n",
+        "monthly_total_return()"
+      ],
+      "id": "50f1b374",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "#### Monthly Return Histogram"
+      ],
+      "id": "8a97250b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from visuals import monthly_hist\n",
+        "\n",
+        "monthly_hist()"
+      ],
+      "id": "3c02ba7e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "#### Annual Returns\n",
+        "\n",
+        "#### V1 Screen: High-Low IVOL\n"
+      ],
+      "id": "9387355e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from visuals import monthly_ivol\n",
+        "\n",
+        "monthly_ivol()"
+      ],
+      "id": "3ddc1d89",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "#### V2 Screen: Negative-Positive Skew\n",
+        "\n",
+        "#### V2 Alpha\n"
+      ],
+      "id": "e923028a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from visuals import monthly_alpha\n",
+        "\n",
+        "monthly_alpha()"
+      ],
+      "id": "412c81b2",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\brayd\\AppData\\Roaming\\Python\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
