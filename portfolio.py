@@ -45,16 +45,20 @@ def portfolio():
 
     ## V1->V2 Screen (Extreme IVOL High-Low) -> (Extreme SKEW Positive-Negative)
     for period in rebalance_period:
-        df_back = df[(df['YEAR'] <= (period - 1)) & (df['YEAR'] >= (period - 6))].copy()  ## Five Year Lookback Window
+        df_back = df[(df['YEAR'] <= (period - 1)) & (df['YEAR'] >= (period - 4))].copy()  ## Five Year Lookback Window
         df_back['PERIOD'] = period ## Rebalance Year
         
         stats_df = df_back.groupby('TICKER')['IVOL'].agg(
             AVE='mean',
             ).reset_index()
         
-        stats2_df = df_back.groupby('TICKER')['RET'].agg(
-            SKEW='skew'
+        stats2_df = df_back.groupby('TICKER').agg(
+            SKEW=('RET','skew'),
+            RET_M =('RET', 'mean'),
+            AVE_I=('IVOL', 'mean')
         ).reset_index()
+
+        stats2_df['SKEW'] = stats2_df['SKEW_ADJ'] = stats2_df['SKEW'] * stats2_df['RET_M'].apply(lambda x: -abs(x)) / stats2_df['AVE_I'] ## THIS IS OUR FILTER
         
         return_df = df[df['YEAR'] == period]
         return_df = df_back.groupby('TICKER')['RET'].agg(
@@ -94,12 +98,12 @@ def portfolio():
         v2_long = v2_df[['Year', 'TICKER','LongRetV1', 'LongSkewV1']].dropna()
         v2_long.columns = ['Year', 'TICKER', 'LongRetV2', 'LongSkewV2']
         v2_long = v2_long.sort_values(by='LongSkewV2', ascending=True)
-        v2_long = v2_long.tail(30) ## OG STRATEGY: v2_long.tail(30)
+        v2_long = v2_long.nlargest(30, 'LongSkewV2') ## OG STRATEGY: v2_long.tail(30)
 
         v2_short = v2_df[['Year', 'TICKER','ShortRetV1', 'ShortSkewV1']].dropna()
         v2_short.columns = ['Year', 'TICKER', 'ShortRetV2', 'ShortSkewV2']
         v2_short = v2_short.sort_values(by='ShortSkewV2', ascending=True)
-        v2_short = v2_short.head(30) ## OG STRATEGY: v2_long.head(30)
+        v2_short = v2_short.nsmallest(30, 'ShortSkewV2') ## OG STRATEGY: v2_long.head(30)
 
         combined = pd.concat([v2_long, v2_short], axis=0)
         v2_list.append(combined)
