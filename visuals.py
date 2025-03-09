@@ -159,3 +159,30 @@ def ticker_count():
     plt.ylabel("Short (Bottom) vs Long (Top)")
     plt.title("Ticker Portfolio Positions by Year")
     plt.show()
+
+def portfolio_totals():
+    portfolio = portfolio_returns()
+    portfolio['CUM_RET'] = portfolio.groupby(['PORTFOLIO'])['RET'].transform(lambda x: np.cumprod(1 + x))
+    v1 = portfolio[portfolio['PORTFOLIO'].str.contains('V1')]
+    v2 = portfolio[portfolio['PORTFOLIO'].str.contains('V2')]
+    
+    ## EQUAL WEIGHT
+    v1 = v1.groupby('DATE')['CUM_RET'].agg(V1='mean').reset_index()
+    v2 = v2.groupby('DATE')['CUM_RET'].agg(V2='mean').reset_index()
+
+    port = v1.merge(v2, how='left', on='DATE')
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(port['DATE'], port['V1'], label='Base Portfolio')
+    plt.plot(port['DATE'], port['V2'], label='Strategy Portfolio')
+
+    plt.xlabel("Date")
+    plt.ylabel("Returns")
+    plt.title("Total Equal-Weighted Portfolio Returns Over Time")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+
+
+
