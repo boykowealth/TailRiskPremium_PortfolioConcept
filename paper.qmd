@@ -68,7 +68,7 @@ from visuals import monthly_hist
 monthly_hist()
 ```
 
-#### Annual Returns
+#### Annual Returns (Value of $100k Invested)
 ```{python}
 from visuals import annual_ret
 annual_ret()

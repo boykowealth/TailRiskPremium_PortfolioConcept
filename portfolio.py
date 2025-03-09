@@ -4,7 +4,7 @@ import numpy as np
 def data():
     dataFile = r"C:\Users\Brayden Boyko\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile2 = r"C:\Users\brayd\Downloads\bizbhzwdqwkigpgu.csv"
-    df = pd.read_csv(dataFile2)
+    df = pd.read_csv(dataFile)
 
     df['DATE'] = pd.to_datetime(df['DATE'], dayfirst=True, errors='coerce')
     df = df.sort_values(by='DATE', ascending=True)
@@ -61,9 +61,8 @@ def portfolio():
         stats2_df['SKEW'] = stats2_df['SKEW_ADJ'] = stats2_df['SKEW'] * stats2_df['RET_M'].apply(lambda x: -abs(x)) / stats2_df['AVE_I'] ## THIS IS OUR FILTER
         
         return_df = df[df['YEAR'] == period]
-        return_df = df_back.groupby('TICKER')['RET'].agg(
-            T_RETURN='sum'
-            ).reset_index()
+        return_df = df_back.groupby('TICKER')['RET'].apply(lambda x: (x + 1).prod() - 1).reset_index(name='T_RETURN')
+
         
         df_back = df_back.merge(stats_df, on='TICKER', how='left')
         df_back = df_back.merge(stats2_df, on='TICKER', how='left')
@@ -116,6 +115,7 @@ def portfolio():
     tickers = L_Base.groupby('Year')['TICKER'].unique().reset_index(name='LongPosV1')
     L_Base = L_Base.groupby('Year')['LongRetV1'].agg(LongV1Ret='mean').reset_index()
     L_Base = L_Base.merge(tickers, on='Year', how='left')
+    
 
     S_Base = v1_df[['Year', 'TICKER', 'ShortRetV1', 'ShortSkewV1']].dropna()
     tickers = S_Base.groupby('Year')['TICKER'].unique().reset_index(name='ShortPosV1')
@@ -142,3 +142,4 @@ def portfolio():
 
 def pchart():
     return portfolio()
+

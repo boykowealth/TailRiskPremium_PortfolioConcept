@@ -6,7 +6,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm
-from wordcloud import WordCloud
 
 def monthly_ret():
     portfolio = portfolio_returns()
@@ -104,24 +103,39 @@ def monthly_hist():
 
 
 def annual_ret():
-    data = pchart()
-    data = data[['Year', 'LongV1Ret', 'LongV2Ret', 'ShortV1Ret', 'ShortV2Ret']]
-    data = data.melt(id_vars=['Year'], var_name='PORTFOLIO', value_name='RET')
+    portfolio = portfolio_returns()
+    portfolio['CUM_RET'] = portfolio.groupby(['PORTFOLIO'])['RET'].transform(lambda x: np.cumprod(1 + x))
+    portfolio['MONTH'] = portfolio['DATE'].dt.month
+    portfolio['YEAR'] = portfolio['DATE'].dt.year
+    portfolio = portfolio[portfolio['MONTH'] == 12]
+    portfolio['INVESTMENT'] = portfolio['CUM_RET'] * 100_000
 
-    fig, axs = plt.subplots(2, 2, figsize=(8, 8), sharex=True)
+    portfolio_v1 = portfolio[portfolio['PORTFOLIO'].str.contains('Long')]
+    portfolio_v2 = portfolio[portfolio['PORTFOLIO'].str.contains('Short')]
 
-    portfolios = ['LongV1Ret', 'LongV2Ret', 'ShortV1Ret', 'ShortV2Ret']
-    titles = ['Long V1 Returns', 'Long V2 Returns', 'Short V1 Returns', 'Short V2 Returns']
+    pivot_v1 = portfolio_v1.pivot(index='YEAR', columns='PORTFOLIO', values='INVESTMENT')
+    pivot_v2 = portfolio_v2.pivot(index='YEAR', columns='PORTFOLIO', values='INVESTMENT')
 
-    for ax, portfolio, title in zip(axs.flatten(), portfolios, titles):
-        subset = data[data['PORTFOLIO'] == portfolio]
-        ax.bar(subset['Year'], subset['RET'], color='teal')
+    fig, axes = plt.subplots(2, 1, figsize=(8, 8), sharey=True)
+    width = 0.4 ## BAR WIDTH
+
+    for ax, pivot, title in zip(axes, [pivot_v1, pivot_v2], ["Long Portfolios", "Short Portfolios"]):
+        years = pivot.index
+        portfolios = pivot.columns
+
+        for i, port in enumerate(portfolios):
+            ax.bar(years + (i - len(portfolios)/2) * width, pivot[port], width=width, label=port)
+
+        ax.set_xlabel("Year")
         ax.set_title(title)
-        ax.set_ylabel('Return')
-        ax.set_xlabel('Year')
-        ax.tick_params(axis='x', rotation=45)
+        ax.set_xticks(years)
+        ax.legend(title="Portfolio")
+        ax.grid(axis='y', linestyle='--', alpha=0.7)
 
+    ax.set_ylabel("Portfolio Value ($)")
+    plt.tight_layout()
     plt.show()
+
 
 def ticker_count():
     data = tickers()
