@@ -183,6 +183,31 @@ def portfolio_totals():
     plt.grid(True)
     plt.show()
 
+    
+def portfolio_skews():
+    portfolio = pchart()
+    port = portfolio[['Year', 'LongV1Skew', 'ShortV1Skew', 'LongV2Skew', 'ShortV2Skew']]
+
+    fig, axes = plt.subplots(2, 2, figsize=(8, 8), sharex=True)
+
+    skews = {
+        "LongV1Skew": (0, 0),
+        "ShortV1Skew": (0, 1),
+        "LongV2Skew": (1, 0),
+        "ShortV2Skew": (1, 1)
+    }
+
+    for key, (row, col) in skews.items():
+        ax = axes[row, col]
+        ax.plot(port["Year"], port[key], marker="o", linestyle="-", label=key)
+        ax.set_title(key)
+        ax.set_xlabel("Year ")
+        ax.set_ylabel("Skew")
+        ax.legend()
+        ax.grid(True)
+
+    plt.tight_layout()
+    plt.show()
 
 
 

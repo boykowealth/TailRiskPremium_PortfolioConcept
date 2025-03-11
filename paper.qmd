@@ -85,6 +85,12 @@ monthly_ivol()
 
 #### V2 Screen: Negative-Positive Skew
 
+```{python}
+from visuals import portfolio_skews
+
+portfolio_skews()
+```
+
 #### V2 Alpha
 
 ```{python}
