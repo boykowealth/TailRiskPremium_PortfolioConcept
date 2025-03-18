@@ -135,3 +135,40 @@ from visuals import monthly_alpha
 monthly_alpha()
 
 ```
+
+### Additional Tests
+
+A series of additional tests were completed to better explain the results found in our data sample period. These tests were conducted in order to improve upon the strategy.
+
+#### Explantion For V2 Short Measure Underperformance
+
+#### Explanation For IVOL Stabalization Post 2008
+
+__Key Takeaways for Post-2008 Market Stability__
+
++ Systemic risk increased post-2008, making diversification ineffective.
++ Correlations tend to rise before a crisis, suggesting a leading indicator for instability.
++ Investor behavior shifted towards liquidity and safety, aligning with our discussion on idiosyncratic risk vs. systemic risk.
++ Market-wide herding intensified, driving the preference for safe assets and reducing the appeal of high-idiosyncratic-risk stocks.
++ Relative decline in idiosyncratic risk due to rising market and industry volatility.
++ Crisis events (2008, COVID-19) still caused firm-specific volatility spikes but within an environment of elevated systematic risk.
++ Investor preference for stability (CSP, large firms) helped reduce firm-specific risk, supporting our discussion on flight to safety and liquidity-driven volatility shifts.
+
+1. "Temporal Evolution of Financial Market Correlations" (Fenn et al.)
+
+__Summary:__ This study applies Principal Component Analysis (PCA) and Random Matrix Theory (RMT) to analyze evolving correlations in financial markets from 1999–2010. Key findings indicate that post-2008, financial assets across different markets exhibited much stronger correlations. The first principal component accounted for nearly 40% of market variance post-Lehman collapse, suggesting that most assets were moving together. This heightened correlation reduces diversification benefits and increases systemic risk.
+
+__Relevance to Post-2008 Stability:__ This aligns with our discussion on correlation risk, where increased asset co-movement reduces the effectiveness of diversification. It also supports the high systemic risk in a post-2008 world, showing why investor behavior shifted towards liquidity preference and safe-haven assets.
+
+2. "Correlation of Financial Markets in Times of Crisis" (Sandoval & Franca)
+
+__Summary:__ The study uses eigenvalue decomposition of correlation matrices to show that market correlations increase dramatically during crises (1987, 1998, 2001, 2008). Their key finding is that high volatility leads to strong correlations, meaning that during crashes, markets behave as one. The study also finds that average market correlation increases prior to a crisis, suggesting an early warning signal.
+
+__Relevance to Post-2008 Stability:__ This reinforces our point that in crisis conditions, herding behavior dominates. The finding that correlations increase before crises aligns with the liquidity crunch hypothesis, where investors pull out of riskier assets preemptively. The study also supports the behavioral premium idea, where investors chase "lottery stocks" in stable times but rush to liquidity in crises.
+
+3. "Stock Markets Correlation - Before and During the Crisis Analysis" (Moldovan)​"
+
+__Summary:__ This paper specifically analyzes the correlations between New York (Dow Jones), London (FTSE), and Tokyo (Nikkei) before (2003-2006) and during (2007-2010) the crisis. It finds that correlations were significantly stronger during the crisis period, meaning that stocks moved together more in downturns than in uptrends. Regression models showed that FTSE’s influence on Dow and Nikkei increased during the crisis, while Nikkei and Dow became negatively correlated.
+
+__Relevance to Post-2008 Stability:__ This supports our discussion on global financial interdependence post-2008. The increased correlation in downturns confirms that diversification failed when most needed. The negative Dow-Nikkei correlation is an interesting insight, possibly reflecting a flight to safety in Japanese markets during the US downturn.
+
