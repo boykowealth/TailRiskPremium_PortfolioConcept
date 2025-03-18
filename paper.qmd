@@ -52,28 +52,45 @@ A variety of benchmark statistics will be included in our portfolio testing:
 + Description of Stock Breakdown For Four Portfolios (Skew, IVOL)
 + V1 & V2 Screening
 
-### Monthly Returns
+### Four Portfolio Metrics
+
+Four portfolio's were constructed under the assumption of equal weighting dynamics. V1 portfolios are comprised of 100 companies and screen through IVOL. V2 portfolios describe our teams extension of the V1 sceen, which utilizes skew to screen for 30 companies in each portfolio.
+
+#### Monthly Returns
 
 ```{python}
-from visuals import monthly_total_return
+from visuals import monthly_ret
 
-monthly_total_return()
+monthly_ret()
 
 ```
 
 #### Monthly Return Histogram
+
 ```{python}
 from visuals import monthly_hist
 
 monthly_hist()
 ```
 
-#### Annual Returns (Value of $100k Invested)
+#### Cumalitve Monthly Returns (Value of $1 Invested)
+
+```{python}
+from visuals import monthly_total_return
+
+monthly_total_return()
+```
+
+#### Annual Returns (Value of $1 Invested)
 ```{python}
 from visuals import annual_ret
 annual_ret()
 
 ```
+
+### Screening Variables
+
+The screening variables are broken into four categories, under the asumption of a three year lookback period. Base Long utilizes the lowest 100 IVOL from the dataset each year. In contrast, the Base Short utilizes the highest 100 IVOL from the dataset. 
 
 #### V1 Screen: High-Low IVOL
 
@@ -91,14 +108,8 @@ from visuals import portfolio_skews
 portfolio_skews()
 ```
 
-#### V2 Alpha
-
-```{python}
-from visuals import monthly_alpha
-
-monthly_alpha()
-
-```
+### Portfolio Positions
+The portfolios are equal weighted. This provides an accurate representation of both the V1 and V2 screening effectiveness.
 
 #### V2 Portfolio Positions Over Time
 
@@ -108,10 +119,19 @@ from visuals import ticker_count
 ticker_count()
 ```
 
-#### Equal Weighted Portfolios (Baseline vs Strategy-Extension)
+#### Equal Weighted Portfolios (Baseline vs Strategy-Extension) Cumalitve Returns (Value of $1 Invested)
 
 ```{python}
 from visuals import portfolio_totals
 
 portfolio_totals()
+```
+
+#### V2 Strategy Alpha Relative To V1 Baseline
+
+```{python}
+from visuals import monthly_alpha
+
+monthly_alpha()
+
 ```

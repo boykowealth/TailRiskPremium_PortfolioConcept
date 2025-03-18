@@ -5,21 +5,28 @@ from sumStats import tickers
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
 from scipy.stats import norm
 
 def monthly_ret():
     portfolio = portfolio_returns()
-
-    plt.figure(figsize=(8, 5))
-    for port in portfolio['PORTFOLIO'].unique():
+    unique_ports = portfolio['PORTFOLIO'].unique()
+    
+    fig, axes = plt.subplots(2, 2, figsize=(8, 8))
+    axes = axes.flatten() 
+    for i, port in enumerate(unique_ports[:4]):  
         data = portfolio[portfolio['PORTFOLIO'] == port]
-        plt.plot(data['DATE'], data['RET'], label=port)
+        ax = axes[i]
+        ax.plot(data['DATE'], data['RET'], label=port)
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Return")
+        ax.set_title(f"Portfolio: {port}")
+        ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+        ax.legend()
+        ax.grid(True)
 
-    plt.xlabel("Date")
-    plt.ylabel("Return")
-    plt.title("Monthly Portfolio Returns Over Time")
-    plt.legend()
-    plt.grid(True)
+
+    plt.tight_layout()  # Adjust spacing between plots
     plt.show()
 
 def monthly_ivol():
@@ -62,10 +69,11 @@ def monthly_alpha():
 
     portfolio['ALPHA_L'] = portfolio['LongPosV2'] - portfolio['LongPosV1']
     portfolio['ALPHA_S'] = portfolio['ShortPosV2'] - portfolio['ShortPosV1']
+
+    portfolio['ALPHA'] = portfolio['ALPHA_L'] + portfolio['ALPHA_S']
     
     plt.figure(figsize=(8, 5))
-    plt.plot(portfolio.index, portfolio['ALPHA_L'], label='Alpha Long')
-    plt.plot(portfolio.index, portfolio['ALPHA_S'], label='Alpha Short')
+    plt.plot(portfolio.index, portfolio['ALPHA'], label='Portfolio Alpha')
 
     plt.xlabel("Date")
     plt.ylabel("Alpha")
@@ -108,7 +116,7 @@ def annual_ret():
     portfolio['MONTH'] = portfolio['DATE'].dt.month
     portfolio['YEAR'] = portfolio['DATE'].dt.year
     portfolio = portfolio[portfolio['MONTH'] == 12]
-    portfolio['INVESTMENT'] = portfolio['CUM_RET'] * 100_000
+    portfolio['INVESTMENT'] = portfolio['CUM_RET']
 
     portfolio_v1 = portfolio[portfolio['PORTFOLIO'].str.contains('Long')]
     portfolio_v2 = portfolio[portfolio['PORTFOLIO'].str.contains('Short')]
