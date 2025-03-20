@@ -38,6 +38,8 @@ library(ggfortify)
 library(ggpmisc)
 library(devtools)
 
+library(dplyr)
+library(tidyr)
 
 ```
 
@@ -406,7 +408,6 @@ spy_monthly_returns <- spy_data %>%
                period = "monthly", 
                type = "log") %>% 
   mutate(SPY.RETURNS = monthly.returns)
-
 ```
 
 ```{r echo=FALSE}
@@ -432,20 +433,23 @@ rf_monthly <- rf_monthly %>%
 
 ```
 
-```{r}
-
-BenchIVOL_df <- read.csv("https://raw.githubusercontent.com/boykowealth/TailRiskPremium_PortfolioConcept/refs/heads/main/Portfolios_Formed_on_RESVAR.csv")
-
-
-
-
-
-
+```{}
 ```
 
 Merge
 
 ```{r echo=FALSE}
+
+##
+BenchIVOL_df <- read.csv("FINAL_NOT_SUCKY.csv", colClasses = c("date" = "character")) %>% 
+  mutate(date = as.Date(zoo::as.yearmon(date, "%Y%m"), frac = 1),
+         hi20 = hi20 / 100,
+         lo20 = lo20 / 100,
+         fammaPort = (hi20 + lo20) / 2
+         ) %>% 
+  dplyr::select(date, fammaPort)
+
+##
 
 slide14_data <- slide14_data %>% mutate(date = as.Date(DATE))
 spy_monthly_returns <- spy_monthly_returns %>% mutate(date = as.Date(date))
@@ -460,8 +464,11 @@ slide23_data <- slide14_selected %>%
   left_join(rf_selected, by = "date")
 
 slide23_data <- slide23_data %>% 
+  dplyr::left_join(BenchIVOL_df, by = "date")
+
+slide23_data <- slide23_data %>% 
   summarise(
-    across(c(New, Base,SPY.RETURNS, rf.rate ), list(
+    across(c(New, Base, fammaPort, SPY.RETURNS, rf.rate), list(
       Mean = ~ mean(.x, na.rm = TRUE),
       StDev = ~ sd(.x, na.rm = TRUE),
       Max = ~ max(.x, na.rm = TRUE),
