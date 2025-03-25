@@ -18,10 +18,12 @@ def monthly_ret():
         data = portfolio[portfolio['PORTFOLIO'] == port]
         ax = axes[i]
         ax.plot(data['DATE'], data['RET'], label=port)
-        ax.set_xlabel("Date")
-        ax.set_ylabel("Return")
         ax.set_title(f"Portfolio: {port}")
         ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+        ax.set_xlabel("Date", fontsize=8)
+        ax.set_ylabel("Return", fontsize=8)
+        ax.tick_params(axis='x', labelsize=8)
+        ax.tick_params(axis='y', labelsize=8)
         ax.legend()
         ax.grid(True)
 

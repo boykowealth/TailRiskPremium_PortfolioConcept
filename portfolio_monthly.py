@@ -207,4 +207,4 @@ def monthly_total_return():
     plt.grid(True)
     plt.show()
 
-monthly_total_return()
+

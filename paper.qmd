@@ -140,9 +140,50 @@ monthly_alpha()
 
 A series of additional tests were completed to better explain the results found in our data sample period. These tests were conducted in order to improve upon the strategy.
 
-#### Explantion For V2 Short Measure Underperformance
+#### Monthly Rebalance Periods
+
+Majority of papers discussing the lottery preference premium, test their findings under the assumption of monthly rebalance periods. To test our strategy of annual rebalance, an additional test was completed to compare the growth of one dollar across each portfolio; under the assumption of monthly rebalance periods (all else equal).
+
+```{python}
+from sumStats import monthly_rebalance_compare
+
+monthly_rebalance_compare()
+
+```
+
+
+#### Explantion For V2 Short Measure Underperformance 
+
+__Does high IVOL really describe a company's potential for valuation decline?__
+
+The paper "High Idiosyncratic Volatility and Low Returns" by Ang, Hodrick, Xing, and Zhang (2008) provides strong evidence of a negative relationship between past idiosyncratic volatility and future stock returns across 23 developed markets.
+
+__Summary of Key Findings:__
+
++ High IVOL → Low Returns: Stocks with high past idiosyncratic volatility earn significantly lower future returns, contradicting classic theories (like Merton 1987) that would expect higher risk to be rewarded.
++ Global Effect: This negative relationship is not U.S.-specific—it's observed in all G7 countries and persists after controlling for size, value, momentum, and market risk factors.
++ Robustness: The effect holds in equal- and value-weighted portfolios, with different volatility estimation windows, and remains unexplained by trading frictions, information asymmetry, skewness, or leverage interactions.
++ Magnitude: In the U.S., moving from the lowest to highest IVOL quintile is associated with a 0.73% drop in monthly returns.
+
+__Link to Valuation Decline:__
+
+While idiosyncratic volatility doesn’t cause valuation decline, the paper shows that high IVOL stocks tend to underperform, implying a greater probability of negative revaluation or weaker investor demand. So, IVOL can act as a proxy for valuation risk in practical terms.
+
+__"Idiosyncratic Volatility and Stock Returns: A Cross Country Analysis" by Visaltanachoti and Pukthuanthong (2009):__
+
+__Paper Summary:__ Using CAPM-based regressions across 38 countries (1996–2005), the authors examine whether idiosyncratic volatility (IVOL) is priced into stock returns.
+Only two countries (US and Philippines) show a positive relationship (higher IVOL → higher returns).
++ Ten countries (e.g., Australia, Canada, Japan, UK) show a negative relationship: higher IVOL is associated with lower stock returns.
++ The remaining countries show no significant relationship.
++ They conclude that IVOL is not consistently priced across global markets, making its effect context-dependent and potentially non-systematic.
+
+__IVOL & Valuation Decline__
+
+In countries where IVOL correlates negatively with returns, it implies that stocks with higher IVOL underperform, suggesting increased downside risk or investor aversion to uncertainty. This behavior aligns with the idea that higher IVOL may be interpreted as noise, mispricing, or overoptimism, leading to future valuation declines. So yes—in several markets, high IVOL is empirically linked to valuation decline, but not universally.
 
 #### Explanation For IVOL Stabalization Post 2008
+
+The number of companies covered by MSCI ESG Ratings doubled from 2014 to 2019. ESG fund assets rose over 250% from 2009 to 2019.
 
 __Key Takeaways for Post-2008 Market Stability__
 
@@ -154,21 +195,65 @@ __Key Takeaways for Post-2008 Market Stability__
 + Crisis events (2008, COVID-19) still caused firm-specific volatility spikes but within an environment of elevated systematic risk.
 + Investor preference for stability (CSP, large firms) helped reduce firm-specific risk, supporting our discussion on flight to safety and liquidity-driven volatility shifts.
 
-1. "Temporal Evolution of Financial Market Correlations" (Fenn et al.)
+__"Temporal Evolution of Financial Market Correlations" (Fenn et al.)__
 
 __Summary:__ This study applies Principal Component Analysis (PCA) and Random Matrix Theory (RMT) to analyze evolving correlations in financial markets from 1999–2010. Key findings indicate that post-2008, financial assets across different markets exhibited much stronger correlations. The first principal component accounted for nearly 40% of market variance post-Lehman collapse, suggesting that most assets were moving together. This heightened correlation reduces diversification benefits and increases systemic risk.
 
 __Relevance to Post-2008 Stability:__ This aligns with our discussion on correlation risk, where increased asset co-movement reduces the effectiveness of diversification. It also supports the high systemic risk in a post-2008 world, showing why investor behavior shifted towards liquidity preference and safe-haven assets.
 
-2. "Correlation of Financial Markets in Times of Crisis" (Sandoval & Franca)
+__"Correlation of Financial Markets in Times of Crisis" (Sandoval & Franca)__
 
 __Summary:__ The study uses eigenvalue decomposition of correlation matrices to show that market correlations increase dramatically during crises (1987, 1998, 2001, 2008). Their key finding is that high volatility leads to strong correlations, meaning that during crashes, markets behave as one. The study also finds that average market correlation increases prior to a crisis, suggesting an early warning signal.
 
 __Relevance to Post-2008 Stability:__ This reinforces our point that in crisis conditions, herding behavior dominates. The finding that correlations increase before crises aligns with the liquidity crunch hypothesis, where investors pull out of riskier assets preemptively. The study also supports the behavioral premium idea, where investors chase "lottery stocks" in stable times but rush to liquidity in crises.
 
-3. "Stock Markets Correlation - Before and During the Crisis Analysis" (Moldovan)​"
+__"Stock Markets Correlation - Before and During the Crisis Analysis" (Moldovan)​"__
 
 __Summary:__ This paper specifically analyzes the correlations between New York (Dow Jones), London (FTSE), and Tokyo (Nikkei) before (2003-2006) and during (2007-2010) the crisis. It finds that correlations were significantly stronger during the crisis period, meaning that stocks moved together more in downturns than in uptrends. Regression models showed that FTSE’s influence on Dow and Nikkei increased during the crisis, while Nikkei and Dow became negatively correlated.
 
 __Relevance to Post-2008 Stability:__ This supports our discussion on global financial interdependence post-2008. The increased correlation in downturns confirms that diversification failed when most needed. The negative Dow-Nikkei correlation is an interesting insight, possibly reflecting a flight to safety in Japanese markets during the US downturn.
 
+__Bottom Line:__
+
+By 2012, consumer expectations for CSR became mainstream, driven by post-crisis distrust, social media activism, regulation, and millennial influence. This permanently reshaped corporate risk profiles, reinforcing CSR as a risk-mitigation tool in financial markets.
+
+__“The Impact of ESG Performance on Firm-Idiosyncratic Risk in the US and Canada” by Nutcha Kongpreecha (2021):__
+
++ Goal: Investigates whether ESG performance reduces firm-specific (idiosyncratic) risk across 480 listed U.S. and Canadian firms from 2007–2020.
++ Main Finding: Higher ESG scores are linked to lower idiosyncratic risk, especially during recessions and the COVID-19 pandemic.
+
+__Key Insights:__
+
++ ESG reduces idiosyncratic risk across both sensitive and non-sensitive industries, but environmental performance has an extra effect in sensitive sectors.
++ High market value firms benefit more from ESG than low-value ones.
++ Low-leverage firms gain more risk reduction from ESG than high-leverage ones.
++ The social pillar of ESG had the strongest effect during COVID-19, reflecting workforce protections and operational resilience.
+
+__Data & Methodology__
+
++ Sample: 480 publicly traded companies → 6,720 firm-year observations.
++ Data Source: Refinitiv Datastream (for ESG scores, stock data, and financials).
+
+__Idiosyncratic Risk Calculation:__
+
++ Uses Fama-French 3-Factor Model.
++ Daily residuals from regressions are annualized to compute idiosyncratic volatility (IDIOR)
+
+__Key Empirical Findings__
+
++ Main Result: A 1 standard deviation increase in ESG score (~20 points) reduces IDIOR by 1.56 percentage points, or ~9.8% of the standard deviation of IDIOR. This is statistically and economically significant.
++ No overall ESG score difference between sensitive vs. non-sensitive sectors. Environmental pillar has a stronger effect in sensitive industries (e.g., oil, chemicals) Social and Governance pillars did not show significant differences by sector. __Interpretation:__ Environmental risks (e.g., pollution penalties, regulations) are more pressing in these industries.
++ High Market Value firms benefit more from ESG in reducing IDIOR. Possibly due to greater stakeholder visibility, reputation effects, and more resources to implement ESG effectively.
++ Low-leverage firms see greater reduction in IDIOR from ESG. ESG may help mitigate asymmetric information for these firms lacking debt-market scrutiny.
++ ESG's risk-reduction effect is stronger in downturns (2008, 2009, 2020). During COVID-19, ESG reduced IDIOR by 4.48 percentage points, much more than in pre-COVID periods.
++ Only the social score had a significant added effect during COVID. __Interpretation:__ Stakeholder (employee/customer) treatment mattered most in a human-health crisis.
++ Stakeholder theory: ESG builds trust with employees, customers, and investors.
++ Legitimacy theory: Firms reduce reputational risk and regulatory pressure by conforming to social norms through ESG.
+
+Empirically, ESG is not just a “virtue signal” — it is quantitatively shown to lower firm-specific risk, especially in:
+
++ Environmentally exposed industries
++ Periods of market stress
++ Firms with fewer alternative risk buffers (e.g., low leverage)
+
+This supports our thesis that the post-2008 decline in idiosyncratic volatility may be linked to widespread ESG adoption, creating stronger correlation across firms and reducing return dispersion.
