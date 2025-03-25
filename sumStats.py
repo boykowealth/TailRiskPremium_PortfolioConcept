@@ -53,3 +53,10 @@ def monthly_rebalance_compare():
 
     plt.tight_layout()
     plt.show()
+
+def htmlTable(path):
+
+    df = pd.read_csv(path)
+    df = df.to_html(index=False, float_format="{:.4f}".format)
+
+    return df

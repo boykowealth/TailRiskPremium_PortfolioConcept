@@ -19,7 +19,7 @@ def monthly_ret():
         ax = axes[i]
         ax.plot(data['DATE'], data['RET'], label=port)
         ax.set_title(f"Portfolio: {port}")
-        ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+        ## ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
         ax.set_xlabel("Date", fontsize=8)
         ax.set_ylabel("Return", fontsize=8)
         ax.tick_params(axis='x', labelsize=8)
