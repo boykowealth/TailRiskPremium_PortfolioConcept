@@ -4,7 +4,8 @@ import numpy as np
 def data():
     dataFile = r"C:\Users\Brayden Boyko\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile2 = r"C:\Users\brayd\Downloads\bizbhzwdqwkigpgu.csv"
-    df = pd.read_csv(dataFile2)
+    dataFile3 = r"C:\Users\brayd\Downloads\kem6kumzrbylvuz3.csv"
+    df = pd.read_csv(dataFile3)
 
     df['DATE'] = pd.to_datetime(df['DATE'], dayfirst=True, errors='coerce')
     df = df.sort_values(by='DATE', ascending=True)
@@ -35,6 +36,7 @@ def metaData(select=None):
     elif select == 'years':
         years = list(df['YEAR_MONTH'].unique())
         return years
+
 
 def portfolio():
     df = data()

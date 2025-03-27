@@ -4,6 +4,7 @@ import numpy as np
 def data():
     dataFile = r"C:\Users\Brayden Boyko\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile2 = r"C:\Users\brayd\Downloads\bizbhzwdqwkigpgu.csv"
+    dataFile3 = r"C:\Users\brayd\Downloads\kem6kumzrbylvuz3.csv" ## Earlier Period For Testing
     df = pd.read_csv(dataFile2)
 
     df['DATE'] = pd.to_datetime(df['DATE'], dayfirst=True, errors='coerce')
@@ -87,7 +88,7 @@ def portfolio():
     v1_df = pd.concat(v1_list, ignore_index=True)
     v1_df = v1_df.pivot(index=['Year', 'TICKER'], columns='Position', values=['T_RETURN', 'SKEW']).reset_index()
     v1_df.columns = ['Year', 'TICKER', 'LongRetV1', 'ShortRetV1', 'LongSkewV1', 'ShortSkewV1']
-    v1_df = v1_df[v1_df['Year'] >= 2007] ## Rebalances Begin In 2007
+    v1_df = v1_df[v1_df['Year'] >= 1965] ## Rebalances Begin In 2007
     rebalance_years = list(v1_df['Year'].unique())
 
     v2_list = []
@@ -142,3 +143,4 @@ def portfolio():
 
 def pchart():
     return portfolio()
+

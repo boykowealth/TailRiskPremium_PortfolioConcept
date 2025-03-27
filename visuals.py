@@ -13,20 +13,25 @@ def monthly_ret():
     unique_ports = portfolio['PORTFOLIO'].unique()
     
     fig, axes = plt.subplots(2, 2, figsize=(8, 8))
+    fig.patch.set_facecolor('#1D1D1B')
     axes = axes.flatten() 
     for i, port in enumerate(unique_ports[:4]):  
         data = portfolio[portfolio['PORTFOLIO'] == port]
         ax = axes[i]
-        ax.plot(data['DATE'], data['RET'], label=port)
-        ax.set_title(f"Portfolio: {port}")
-        ## ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
-        ax.set_xlabel("Date", fontsize=8)
-        ax.set_ylabel("Return", fontsize=8)
-        ax.tick_params(axis='x', labelsize=8)
-        ax.tick_params(axis='y', labelsize=8)
-        ax.legend()
-        ax.grid(True)
+        ax.plot(data['DATE'], data['RET'], label=port, color='#9fc3cf')
+        ax.set_title(f"Portfolio: {port}", color='white', fontsize=10, loc='left')
+        ax.set_xlabel("Date", fontsize=8, color='white')
+        ax.set_ylabel("Return", fontsize=8, color='white')
+        ax.tick_params(axis='x', labelsize=8, colors='white')
+        ax.tick_params(axis='y', labelsize=8, colors='white')
+        ax.grid(True, linestyle=':', color='white')
 
+        ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+        ax.set_facecolor('#1D1D1B') 
+        ax.spines['top'].set_color('white')
+        ax.spines['right'].set_color('white')
+        ax.spines['bottom'].set_color('white')
+        ax.spines['left'].set_color('white')
 
     plt.tight_layout()  # Adjust spacing between plots
     plt.show()
@@ -36,6 +41,7 @@ def monthly_ivol():
     portfolio = portfolio[portfolio['PORTFOLIO'].isin(['LongPosV1', 'ShortPosV1'])]
     
     fig, axs = plt.subplots(2, 1, figsize=(8, 8))
+    fig.patch.set_facecolor('#1D1D1B')
     
     for i, port in enumerate(portfolio['PORTFOLIO'].unique()):
         data = portfolio[portfolio['PORTFOLIO'] == port]
@@ -51,17 +57,40 @@ def monthly_total_return():
     portfolio = portfolio_returns()
     portfolio['CUM_RET'] = portfolio.groupby(['PORTFOLIO'])['RET'].transform(lambda x: np.cumprod(1 + x))
 
-    plt.figure(figsize=(8, 5))
+    plt.figure(figsize=(8, 5), facecolor='#1D1D1B')
+    ax = plt.gca()
+    ax.set_facecolor('#1D1D1B')
+
+    ax.spines['bottom'].set_color('white')
+    ax.spines['top'].set_color('white')
+    ax.spines['left'].set_color('white')
+    ax.spines['right'].set_color('white')
+
+    ax.tick_params(axis='x', colors='white')
+    ax.tick_params(axis='y', colors='white') 
+    ax.xaxis.label.set_color('white')
+    ax.yaxis.label.set_color('white')
+
     for port in portfolio['PORTFOLIO'].unique():
         data = portfolio[portfolio['PORTFOLIO'] == port]
         plt.plot(data['DATE'], data['CUM_RET'], label=port)
 
-    plt.xlabel("Date")
-    plt.ylabel("Return")
-    plt.title("Monthly Portfolio Returns Over Time")
-    plt.legend()
-    plt.grid(True)
+    plt.xlabel("Date", fontsize=8, color='white')
+    plt.ylabel("Return", fontsize=8, color='white')
+    plt.title("Monthly Portfolio Returns Over Time", fontsize=10, color='white', loc='left')
+    plt.legend(facecolor='#1D1D1B',
+               edgecolor='white',
+               fontsize=8,
+               loc='upper left',
+               title='',
+               title_fontsize=10,
+               labelcolor='white'
+            )
+    plt.grid(True, linestyle=':', color='white')
+
     plt.show()
+
+
 
 def monthly_alpha():
     portfolio = portfolio_returns()
@@ -221,3 +250,60 @@ def portfolio_skews():
 
 
 
+def ticker_three_bar_chart():
+    data = tickers()
+
+    data = data[data['Year'] >= 2007]
+
+    long_tickers = data[data['Portfolio'] == 'Long']['Ticker'].value_counts().nlargest(5)
+    short_tickers = data[data['Portfolio'] == 'Short']['Ticker'].value_counts().nlargest(5)
+
+    frequent_tickers = pd.concat([long_tickers, short_tickers], axis=1, keys=['Long', 'Short']).fillna(0)
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    fig.patch.set_facecolor('#1D1D1B')
+    ax.set_facecolor('#1D1D1B')
+
+    x = range(len(frequent_tickers))
+    width = 0.5
+
+    # Plot bars
+    bars_long = ax.bar([i - width / 2 for i in x], frequent_tickers['Long'], width, label='Long', color='#4A90E2')
+    bars_short = ax.bar([i + width / 2 for i in x], frequent_tickers['Short'], width, label='Short', color='#9fc3cf')
+
+    # Add ticker labels inside the bars
+    for i, bar in enumerate(bars_long):
+        ax.text(
+            bar.get_x() + bar.get_width() / 2, 
+            bar.get_height() / 2, 
+            frequent_tickers.index[i], 
+            ha='center', va='center', color='black', fontsize=8
+        )
+
+    for i, bar in enumerate(bars_short):
+        ax.text(
+            bar.get_x() + bar.get_width() / 2, 
+            bar.get_height() / 2, 
+            frequent_tickers.index[i], 
+            ha='center', va='center', color='black', fontsize=8
+        )
+
+    # Chart formatting
+    ax.set_xticks([])
+    ax.set_xticklabels([], fontsize=10, color=(1, 1, 1, 0))
+    ax.set_xlabel("Tickers", fontsize=0, color='white', loc='center')
+    ax.set_ylabel("Frequency", fontsize=10, color='white')
+    ax.set_title("Top 3 Most Frequent Tickers: Long vs. Short", fontsize=12, color='white')
+    ax.tick_params(axis='y', colors='white')
+    ax.tick_params(axis='x', labelbottom=False)
+    ax.spines['top'].set_color('white')
+    ax.spines['bottom'].set_color('white')
+    ax.spines['left'].set_color('white')
+    ax.spines['right'].set_color('white')
+    ax.legend(facecolor='#1D1D1B', edgecolor='white', title='', title_fontsize=10, labelcolor='white')
+
+    plt.tight_layout()
+    plt.show()
+
+
+ticker_three_bar_chart()
