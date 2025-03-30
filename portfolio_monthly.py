@@ -5,7 +5,7 @@ def data():
     dataFile = r"C:\Users\Brayden Boyko\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile2 = r"C:\Users\brayd\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile3 = r"C:\Users\brayd\Downloads\kem6kumzrbylvuz3.csv"
-    df = pd.read_csv(dataFile3)
+    df = pd.read_csv(dataFile)
 
     df['DATE'] = pd.to_datetime(df['DATE'], dayfirst=True, errors='coerce')
     df = df.sort_values(by='DATE', ascending=True)
@@ -193,20 +193,44 @@ def portfolio_returns():
     return portfolio
 
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+import matplotlib.ticker as mtick
+
 def monthly_total_return():
     portfolio = portfolio_returns()
     portfolio['CUM_RET'] = portfolio.groupby(['PORTFOLIO'])['RET'].transform(lambda x: np.cumprod(1 + x))
+    portfolio = portfolio[portfolio['PORTFOLIO'].str.contains('V2')]
+    portfolio['CUM_RET'] = portfolio.groupby(['PORTFOLIO'])['CUM_RET'].transform('mean')
 
-    plt.figure(figsize=(8, 5))
-    for port in portfolio['PORTFOLIO'].unique():
-        data = portfolio[portfolio['PORTFOLIO'] == port]
-        plt.plot(data['DATE'], data['CUM_RET'], label=port)
 
-    plt.xlabel("Date")
-    plt.ylabel("Return")
-    plt.title("Monthly Portfolio Returns Over Time")
-    plt.legend()
-    plt.grid(True)
+    fig, ax = plt.subplots(figsize=(8, 5))
+    fig.patch.set_facecolor('#1D1D1B')
+    ax.set_facecolor('#1D1D1B')
+
+    ax.plot(data['DATE'], data['CUM_RET'], label='New Portfolio')
+
+    # Formatting the plot
+    ax.set_xlabel("Date", fontsize=10, color='white')
+    ax.set_ylabel("Cumulative Return", fontsize=10, color='white')
+    ax.set_title("Monthly Portfolio Returns Over Time", fontsize=12, color='white', loc='left')
+
+    ax.tick_params(axis='x', labelsize=8, colors='white')
+    ax.tick_params(axis='y', labelsize=8, colors='white')
+
+    ax.spines['top'].set_color('white')
+    ax.spines['right'].set_color('white')
+    ax.spines['bottom'].set_color('white')
+    ax.spines['left'].set_color('white')
+
+    ax.legend(facecolor='#1D1D1B', edgecolor='white', fontsize=10)
+    ax.grid(True, linestyle=':', color='white')
+
+    #ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+    ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+
+    plt.tight_layout()
     plt.show()
+
+
 
 

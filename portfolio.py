@@ -5,7 +5,8 @@ def data():
     dataFile = r"C:\Users\Brayden Boyko\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile2 = r"C:\Users\brayd\Downloads\bizbhzwdqwkigpgu.csv"
     dataFile3 = r"C:\Users\brayd\Downloads\kem6kumzrbylvuz3.csv" ## Earlier Period For Testing
-    df = pd.read_csv(dataFile2)
+    dataFile4 = r"C:\Users\Brayden Boyko\Downloads\kem6kumzrbylvuz3.csv"
+    df = pd.read_csv(dataFile4)
 
     df['DATE'] = pd.to_datetime(df['DATE'], dayfirst=True, errors='coerce')
     df = df.sort_values(by='DATE', ascending=True)
