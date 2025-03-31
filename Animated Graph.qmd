@@ -2,9 +2,22 @@
 
 ---
 title: ""
-author: "Brayden Boyko"
-format: html
-editor: visual
+author: ""
+format: 
+  html:
+    theme: cyborg
+    embed-resources: true
+    page-layout: full
+    toc: true
+    toc-location: left
+    grid: 
+      margin-width: 200px
+      body-width: 1000px
+    css: style.css
+    resource: 
+      - "*.js"
+      - "*.mp3"
+editor: source
 ---
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
