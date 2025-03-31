@@ -1,24 +1,26 @@
-![](images/clipboard-1227717430.png)
 
 ---
 title: ""
 author: ""
 format: 
   html:
-    theme: cyborg
     embed-resources: true
     page-layout: full
-    toc: true
-    toc-location: left
+    toc: false
     grid: 
-      margin-width: 200px
+      margin-width: 10px
       body-width: 1000px
-    css: style.css
-    resource: 
+    resources: 
       - "*.js"
       - "*.mp3"
 editor: source
 ---
+<style>
+body {
+  background-color: #1D1D1B;
+}
+</style>
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
