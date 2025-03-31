@@ -27,7 +27,7 @@ body {
 library(tidyverse)
 library(plotly)
 
-app_df <- read.csv("C:/Users/Brayden Boyko/Downloads/322 Data CSV (1).csv")
+app_df <- read.csv("C:/Users/Brayden Boyko/Downloads/322 Data CSV (2).csv")
 
 df_long <- app_df %>%
   pivot_longer(
