@@ -1,0 +1,72 @@
+![](images/clipboard-1227717430.png)
+
+---
+title: ""
+author: "Brayden Boyko"
+format: html
+editor: visual
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+library(tidyverse)
+library(plotly)
+
+app_df <- read.csv("C:/Users/Brayden Boyko/Downloads/322 Data CSV (1).csv")
+
+df_long <- app_df %>%
+  pivot_longer(
+    cols = starts_with("X"),
+    names_to = "Years",
+    values_to = "Value"
+  ) %>%
+  mutate(Years = as.numeric(str_remove(Years, "^X")))
+
+colnames(df_long)[1] <- "Metric"
+
+years <- sort(unique(df_long$Years))
+
+line_df <- map_dfr(years, function(yr) {
+  df_long %>%
+    filter(Years <= yr) %>%
+    mutate(frame = yr)
+})
+
+dot_df <- df_long %>%
+  mutate(frame = Years)
+
+p <- plot_ly()
+
+p <- p %>%
+  add_trace(
+    data = line_df,
+    x = ~Years,
+    y = ~Value,
+    frame = ~frame,
+    color = ~Metric,
+    type = 'scatter',
+    mode = 'lines',
+    line = list(width = 2),
+    showlegend = TRUE
+  )
+
+
+p <- p %>%
+  layout(
+    title = "Financial Metrics Over Time",
+    xaxis = list(title = "Year", color = "white"),
+    yaxis = list(title = "Value (Millions)", color = "white"),
+    plot_bgcolor = "#1D1D1B",
+    paper_bgcolor = "#1D1D1B",
+    font = list(color = "white")
+  ) %>%
+  animation_opts(frame = 600, easing = 'linear', redraw = FALSE) %>%
+  animation_button(x = 1, xanchor = "right", y = 0, yanchor = "bottom") %>%
+  animation_slider(
+    currentvalue = list(prefix = "Year: ", font = list(color = 'white')),
+    tickfont = list(color = 'white')
+  )
+
+p
+
+```
